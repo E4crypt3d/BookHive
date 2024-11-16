@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+	#borrow:has(> *:only-child) {
+		@apply flex justify-center items-center;
+	}
+}

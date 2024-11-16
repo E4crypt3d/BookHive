@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <div class="flex items-center justify-between">
+                    <h2 class="card-title text-2xl text-success">Book Borrowed Successfully!</h2>
+                    <div class="badge badge-success badge-lg">Success</div>
+                </div>
+                <div class="divider"></div>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-lg font-semibold">Book Details</h3>
+                        <p><strong>Title:</strong> {{ borrow.book.title }}</p>
+                        <p><strong>Author:</strong> {{ borrow.book.author }}</p>
+                        <p><strong>ISBN:</strong>
+                            {% if borrow.book.isbn_10 %}
+                            {{borrow.book.isbn_10}}
+                            {% else %}
+                            {{ borrow.book.isbn }}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Student Details</h3>
+                        <p><strong>Name:</strong> {{ borrow.student.name }}</p>
+                        <p><strong>Roll No:</strong> {{ borrow.student.roll_no|upper }}</p>
+                        <p><strong>Department:</strong> {{ borrow.student.department }}</p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Borrowing Details</h3>
+                        <p><strong>Borrow Date:</strong> {{ borrow.issue_date}}</p>
+                        <p><strong>Return Date:</strong> {{ borrow.due_date}}</p>
+                    </div>
+                </div>
+                <div class="alert alert-info mt-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        class="stroke-current shrink-0 w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Please return the book by the due date to avoid late fees.</span>
+                </div>
+                <div class="card-actions justify-end mt-6">
+                    <a href="/catalog" class="btn btn-primary">Back to Catalog</a>
+                    <a href="/my-borrowings" class="btn btn-ghost">My Borrowings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

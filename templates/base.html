@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Book Management System</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <header class="bg-blue-600 text-white shadow-lg">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold"><a href="{% url 'home' %}">UniBook Manager</a></div>
+                <div class="hidden md:flex space-x-4">
+                    <a href="{% url 'home' %}" class="hover:text-blue-200 transition duration-300">Home</a>
+                    <a href="{% url 'catalog' %}" class="hover:text-blue-200 transition duration-300">Catalog</a>
+                    <a href="{% url 'borrowing' %}" class="hover:text-blue-200 transition duration-300">Borrowings</a>
+                </div>
+                <button id="menu-toggle" class="md:hidden focus:outline-none">
+                    <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                        <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden bg-blue-500 pb-4">
+            <a href="{% url 'home' %}" class="block px-4 py-2 text-blue-200 hover:bg-blue-600">Home</a>
+            <a href="{% url 'catalog' %}" class="block px-4 py-2 text-blue-200 hover:bg-blue-600">Catalog</a>
+            <a href="{% url 'borrowing' %}" class="block px-4 py-2 text-blue-200 hover:bg-blue-600">Borrowings</a>
+        </div>
+    </header>
+
+    {% block content %}
+
+
+
+
+    {% endblock content %}
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold">UniBook Manager</h3>
+                    <p class="text-sm">Empowering students with easy access to educational resources.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-blue-300 transition duration-300">Home</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition duration-300">Catalog</a></li>
+                        <li><a href="#" class="hover:text-blue-300 transition duration-300">Borrowings</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-sm text-center">
+                <p>&copy; 2024 UniBook Manager. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+    <script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.js"
+        integrity="sha384-BBDmZzVt6vjz5YbQqZPtFZW82o8QotoM7RUp5xOxV3nSJ8u2pSdtzFAbGKzTlKtg"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

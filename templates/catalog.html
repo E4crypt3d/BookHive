@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container mx-auto px-6 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">Book Catalog</h1>
+
+    <div class="mb-8 flex flex-col md:flex-row justify-between items-center">
+        <div class="w-full md:w-1/2 mb-4 md:mb-0">
+            <input name="search" hx-get="{% url 'filter' %}" hx-trigger="keyup changed delay:700ms" hx-target="#books"
+                type="text" placeholder="Search by title, author, or ISBN..."
+                class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="w-full md:w-auto flex space-x-4">
+            <select name="category" hx-get="{% url 'filter' %}" hx-trigger="change" hx-target="#books"
+                class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div id="books" class="flex flex-col">
+        {% include 'partials/partial_catalog.html' %}
+    </div>
+
+
+
+
+    <!-- Borrow Form Modal -->
+    <dialog id="borrowModal" class="modal">
+        <div class="modal-box w-11/12 max-w-md">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <h3 class="font-bold text-lg mb-4">Borrow Book</h3>
+            <form id="borrowForm" class="space-y-4" method="post" action="{% url 'catalog' %}">
+                {% csrf_token %}
+                <div class="form-control">
+                    <label class="label" for="bookTitle">
+                        <span class="label-text">Book Title</span>
+                    </label>
+                    <input type="text" id="bookTitle" name="bookTitle" class="input input-bordered" readonly>
+                </div>
+                <input type="text" id="bookISBN" name="bookISBN" class="input input-bordered hidden" readonly>
+                <div class="form-control">
+                    <label class="label" for="studentId">
+                        <span class="label-text">Roll No</span>
+                    </label>
+                    <input value="T/BS-" type="text" id="studentId" name="studentId"
+                        pattern="^T\/BS-[A-Za-z]+\/[A-Za-z]+-[1-9]\d?$"
+                        title="The role number must follow the format T/BS-[Department Code]/[Department Code]-[Roll Number]"
+                        class="
+                        input input-bordered" required>
+                </div>
+                <div class="form-control">
+                    <label class="label" for="nameId">
+                        <span class="label-text">Name</span>
+                    </label>
+                    <input type="text" id="nameId" name="nameId" class="input input-bordered" required>
+                </div>
+                <div class="form-control">
+                    <label class="label" for="departmentId">
+                        <span class="label-text">Department</span>
+                    </label>
+                    <input type="text" id="departmentId" name="departmentId" class="input input-bordered" required>
+                </div>
+                <div class="form-control">
+                    <label class="label" for="borrowDate">
+                        <span class="label-text">Borrow Date</span>
+                    </label>
+                    <input type="date" id="borrowDate" name="borrowDate" class="input input-bordered" required>
+                </div>
+                <div class="form-control">
+                    <label class="label" for="returnDate">
+                        <span class="label-text">Expected Return Date</span>
+                    </label>
+                    <input type="date" id="returnDate" name="returnDate" class="input input-bordered" required>
+                </div>
+                <div class="modal-action">
+                    <button type="button" class="btn btn-ghost" onclick="closeBorrowModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Confirm Borrow</button>
+                </div>
+            </form>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
+
+
+    </div>
+</main>
+<script>
+    // Function to populate and show the modal
+    function openBorrowModal(title, isbn) {
+        document.getElementById('bookTitle').value = title;
+        document.getElementById('borrowDate').value = new Date().toISOString().split('T')[0];
+        document.getElementById('bookISBN').value = isbn;
+        document.getElementById('borrowModal').showModal();
+    }
+
+    // Optional function to close the modal
+    function closeBorrowModal() {
+        document.getElementById('borrowModal').close();
+    }
+</script>
+{% endblock content %}

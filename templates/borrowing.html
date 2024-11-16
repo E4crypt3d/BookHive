@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container mx-auto px-6 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">My Borrowings</h1>
+    <div id="borrow_details">
+        {% include 'partials/partial_borrowing.html' %}
+    </div>
+</main>
+
+<script>
+
+    function openReturnModal(fine) {
+        document.getElementById('returnFine').innerText = fine;
+        document.getElementById('returnModal').showModal();
+    }
+
+    // Optional function to close the modal
+    function closeReturnModal() {
+        document.getElementById('returnModal').close();
+    }
+</script>
+{% endblock content %}

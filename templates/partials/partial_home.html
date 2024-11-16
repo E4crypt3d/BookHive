@@ -1,0 +1,117 @@
+{% if borrows %}
+
+{% for borrow in borrows %}
+
+
+
+{% if not borrow.returned %}
+
+
+
+
+
+
+<div class="card w-96 mx-auto bg-base-100 shadow-xl">
+    <div class="card-body">
+        <div class="flex flex-row">
+            <h2 class="card-title text-primary">Book Borrowing Details</h2>
+
+            <a href="{% url 'borrowing' %}"
+                class="badge badge-primary badge-sm self-center text-xs ml-auto hover:cursor-pointer hover:underline hover:badge-outline">
+                Return</a>
+        </div>
+
+        <div class="divider my-2"></div>
+
+        <div class="flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-secondary" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <p class="font-semibold">{{borrow.student.name}}</p>
+            <span class="badge badge-ghost">{% if borrow.book.isbn_10 %}
+                {{borrow.book.isbn_10}}
+                {% else %}
+                {{ borrow.book.isbn_13 }}
+                {% endif %}</span>
+        </div>
+
+        <div class="mt-4">
+            <h3 class="font-bold flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-accent" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                {{borrow.book.title}}
+            </h3>
+            <p class="text-sm text-base-content/70">by {{borrow.book.author}}</p>
+            <p class="text-xs text-base-content/50">Language: {{borrow.book.language}}</p>
+            <p class="text-xs text-base-content/50">Pages: {{borrow.book.page_count}}</p>
+            <p class="text-xs text-base-content/50">Publisher: {{borrow.book.publisher}}</p>
+            <p class="text-xs text-base-content/50">
+                {{borrow.student.roll_no}}
+            </p>
+        </div>
+
+        <div class="divider my-2"></div>
+
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-info" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <div>
+                    <p class="text-xs font-medium">Borrowed</p>
+                    <p class="text-sm">{{borrow.issue_date}}</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-warning" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <div>
+                    <p class="text-xs font-medium">Return By</p>
+                    <p class="text-sm">{{borrow.due_date}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 bg-base-200 p-3 rounded-lg flex items-center justify-between">
+
+            {% if not borrow.is_overdue %}
+
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-error" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="font-medium">Days Left</span>
+            </div>
+            <span class="text-2xl font-bold">{{borrow.remaining_days}}</span>
+            {% else %}
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-error" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.5 1M12 4.5c-1.638 0-3 1.5-3 3 0 1.5 1.362 3 3 3m0-10c1.11 0 2.08.402 2.5 1M12 3.5c-1.638 0-3 1.362-3 3 0 1.5 1.363 3 3 3m3.5 6.5c-.491 0-.911-.238-1.091-.668l-4.59-4.59c-.082-.082-.202-.082-.284 0 .082.082.202.082.284 0l4.59 4.59c.18.41.498.668 1.091.668zm-4.59-2.25c.491 0 .911.238 1.091.668l4.59 4.59c.082.082.202.082.284 0 .082-.082.202-.082.284 0l-4.59-4.59c-.18-.41-.498-.668-1.091-.668z" />
+                </svg>
+                <span class="font-medium">Overdue Fine</span>
+            </div>
+            <span class="text-2xl font-bold">{{borrow.calculate_fee}}</span>
+
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+<div class="alert alert-error hidden"></div>
+<div class="alert alert-warning hidden"></div>
